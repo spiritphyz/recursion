@@ -1,10 +1,15 @@
-// If life was easy, we could just do things the easy way:
-// var getElementsByClassName = function (className) {
-//   return document.getElementsByClassName(className);
-// };
-
-// But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
-) {
-  // your code here
+var getElementsByClassName = function(className, node) {
+  var result = [];
+  node = node || document.body;
+  if (node.classList) { // text nodes have undefined classList
+    if (node.classList.contains(className)) {
+      result.push(node);
+    }
+  }
+  node.childNodes.forEach(function(childNode) { 
+    // childNodes is always an array, even if it's empty for text nodes
+    result = result.concat(
+      getElementsByClassName(className, childNode));
+  });
+  return result;
 };
